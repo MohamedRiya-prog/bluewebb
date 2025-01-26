@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation"; // Correct import for client components
 import { auth } from "@/lib/firebase"; // Assuming you have your Firebase setup here
 import { onAuthStateChanged } from "firebase/auth";
-import Image from "next/image";
 
 export default function MainPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // Track user's login state

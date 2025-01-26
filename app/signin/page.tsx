@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation"; // Import `useRouter` from next/navigation
@@ -30,7 +30,6 @@ export default function SignIn() {
         router.push("/user-agreement"); // Redirect to the user agreement page
       }, 3000); // Duration for the popup to be visible
     } catch (err) {
-      const errorMessage = (err as Error).message;
       setError("Failed to sign in");
       setShowPopup(true); // Show the popup message
     } finally {
