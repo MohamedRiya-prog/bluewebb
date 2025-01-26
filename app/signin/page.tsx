@@ -29,7 +29,8 @@ export default function SignIn() {
         setShowPopup(false);
         router.push("/user-agreement"); // Redirect to the user agreement page
       }, 3000); // Duration for the popup to be visible
-    } catch (_) {
+    } catch (err) {
+      console.log(err);
       setError("Failed to sign in");
       setShowPopup(true); // Show the popup message
     } finally {

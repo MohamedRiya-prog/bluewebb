@@ -43,7 +43,7 @@ export default function UserAgreementPage() {
   };
 
   return (
-    <div className="bg-grayBackground min-h-screen flex justify-center flex flex-col items-center">
+    <div className="bg-grayBackground min-h-screen flex justify-center flex-col items-center">
       <div className="w-full max-w-7xl bg-white p-5 rounded shadow-lg h-max">
         <div className="flex flex-row items-center justify-center mt-10">
           <Image
@@ -61,7 +61,7 @@ export default function UserAgreementPage() {
           </div>
           <h1 className="font-frutigerBold text-xs mt-4">YOUR ACCEPTANCE OF THIS AGREEMENT</h1>
           <div className="font-frutiger text-[8px] mt-4 uppercase">
-            This agreement governs your use of the CMS website, its content, and the services and products provided through the website. By using the website, you confirm your acceptance of this agreement, as well as the acceptance of anyone you represent for the purposes of this agreement, "person" includes individuals, organizations, and any incorporated or unincorporated entities. You further represent and warrant that you have the legal authority to accept and agree to this agreement on behalf of yourself and anyone you represent. If you disagree with any part of this agreement, or if you are not authorized to accept it on behalf of yourself or others, you may not use the website.
+            This agreement governs your use of the CMS website, its content, and the services and products provided through the website. By using the website, you confirm your acceptance of this agreement, as well as the acceptance of anyone you represent for the purposes of this agreement, person includes individuals, organizations, and any incorporated or unincorporated entities. You further represent and warrant that you have the legal authority to accept and agree to this agreement on behalf of yourself and anyone you represent. If you disagree with any part of this agreement, or if you are not authorized to accept it on behalf of yourself or others, you may not use the website.
           </div>
           <h1 className="font-frutigerBold text-xs mt-4">PERMITTED USERS AND ACCESS</h1>
           <div className="font-frutiger text-[8px] mt-4 uppercase">
