@@ -59,6 +59,10 @@ export default function MainPage() {
       {/* Modal Component */}
       {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
 
+        <div className="absolute bottom-10 right-6 text-brand text-2xl font-alexandriaBold opacity-80">
+  EXCELAIR
+</div>
+
       <footer className="text-brandGray py-4 text-center mt-auto">
         <p className="text-[8px]">
           &copy; 2025 Century Mechanical Systems Factory LLC. All Rights Reserved.
