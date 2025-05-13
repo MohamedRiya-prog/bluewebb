@@ -14,6 +14,7 @@ export default {
         brand: "#0069A7",
         brandGray: "#808284",
         grayBackground: "F9F9F9",
+        buttonGray: "#676464"
       },
       fontFamily: {
         alexandria: ["AlexandriaFLF", "sans-serif"],
