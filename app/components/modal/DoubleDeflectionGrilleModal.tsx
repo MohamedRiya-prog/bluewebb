@@ -1,20 +1,37 @@
 import { useState } from "react";
-import ResultsTable from "../reultsTable/ResultsTabelSmall"; // Import the reusable table component
+import ResultsTableSmall from "../reultsTable/ResultsTabelSmall";
 
-const DoubleDeflectionGrilleModal = ({ onClose }: { onClose: () => void }) => {
-  const [type, setType] = useState(""); // "Supply" or "Return"
+const DoubleDeflectionGrilleModal = ({
+  onClose,
+  onSubmit,
+}: {
+  onClose: () => void;
+  onSubmit: (data: any) => void;
+}) => {
+  const [type, setType] = useState("Supply");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [airflow, setAirflow] = useState("");
 
+  // Optional: Add any calculated fields here
+  const resultData = {
+    type,
+    width,
+    height,
+    airflow,
+  };
+
+  const isFormFilled = type && width && height && airflow;
+
   const handleSubmit = () => {
-    console.log({ type, width, height, airflow });
-    onClose(); // Close modal after submission
+    if (!isFormFilled) return;
+    onSubmit(resultData); // send data to the parent component
+    onClose(); // close the modal
   };
 
   return (
-    <div className="p-4 overflow-hidden">
-      {/* Supply or Return Selection */}
+    <div className="overflow-hidden">
+      {/* Select Type */}
       <div className="mb-6">
         <label className="block text-sm font-medium font-frutiger text-gray-700 mb-2">
           Select Type
@@ -43,27 +60,25 @@ const DoubleDeflectionGrilleModal = ({ onClose }: { onClose: () => void }) => {
         </div>
       </div>
 
-      {/* Width and Height Inputs */}
+      {/* Width & Height */}
       <div className="flex gap-8">
-    
-      <input
-        type="number"
-        placeholder="Enter width (mm)"
-        value={width}
-        onChange={(e) => setWidth(e.target.value)}
-        className="w-full flex p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
-      />
-      <input
-        type="number"
-        placeholder="Enter height (mm)"
-        value={height}
-        onChange={(e) => setHeight(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
-      />
+        <input
+          type="number"
+          placeholder="Enter width (mm)"
+          value={width}
+          onChange={(e) => setWidth(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
+        />
+        <input
+          type="number"
+          placeholder="Enter height (mm)"
+          value={height}
+          onChange={(e) => setHeight(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
+        />
       </div>
 
-
-      {/* Airflow Input */}
+      {/* Airflow */}
       <input
         type="number"
         placeholder="Enter airflow (LPS)"
@@ -72,10 +87,14 @@ const DoubleDeflectionGrilleModal = ({ onClose }: { onClose: () => void }) => {
         className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
       />
 
-      {/* Results Table - Show Only When Values Are Entered */}
-      {airflow && width && height && <ResultsTable />}
+      {/* Show Preview Table if form is filled */}
+      {isFormFilled && (
+        <div className="mb-4">
+          <ResultsTableSmall data={resultData} />
+        </div>
+      )}
 
-      {/* Submit Button */}
+      {/* Submit */}
       <button
         onClick={handleSubmit}
         className="mt-4 px-4 py-2 bg-brandGray hover:bg-brand text-sm rounded-full text-white font-frutiger"

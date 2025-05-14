@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 
 // Import individual modals
-import DoubleDeflectionModal from '../modal/DoubleDeflectionGrilleModal';
+import DoubleDeflectionGrilleModal from '../modal/DoubleDeflectionGrilleModal';
 import LinearBarModal from '../modal/LinearBarGrilleModal';
 
 // Define a list of products
@@ -17,7 +17,13 @@ const products = [
   { name: 'Eyeball Diffusers (JN-EB)', image: '/Pictures/eyeball.jpg' },
 ];
 
-const MainModal = ({ onClose }: { onClose: () => void }) => {
+const MainModal = ({
+  onClose,
+  onSubmit,
+}: {
+  onClose: () => void;
+  onSubmit: (result: any) => void;
+}) => {
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [step, setStep] = useState<'select' | 'details'>('select');
@@ -28,40 +34,50 @@ const MainModal = ({ onClose }: { onClose: () => void }) => {
   };
 
   const renderProductModal = (productName: string) => {
+    const sharedProps = {
+      onClose,
+      onSubmit: (data: any) => {
+        onSubmit(data);   // send data to MainPage
+        onClose();        // close modal after submission
+      },
+    };
+
     switch (productName) {
       case 'Double Deflection Grilles (SAG/RAG)':
-        return <DoubleDeflectionModal onClose={onClose} />;
+        return <DoubleDeflectionGrilleModal {...sharedProps} />;
       case 'Linear Bar Grilles (SLBG/RLBG)':
-        return <LinearBarModal onClose={onClose} />;
-
+        return <LinearBarModal {...sharedProps} />;
+      default:
         return <div className="p-6">No details available for {productName}</div>;
     }
   };
 
   const getCurrentImage = () => {
-    const imageProduct =
-      hoveredProduct || selectedProduct || products[0].name;
+    const imageProduct = hoveredProduct || selectedProduct || products[0].name;
     return (
-      products.find((product) => product.name === imageProduct)?.image ??
-      '/default.jpg'
+      products.find((product) => product.name === imageProduct)?.image ?? '/default.jpg'
     );
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white w-[1200px] h-[700px] rounded-lg shadow-lg overflow-hidden flex">
+      <div className="bg-white w-[1400px] h-[700px] rounded-lg shadow-lg overflow-hidden flex">
         {/* Left Panel */}
         <div className="w-1/2 p-6 overflow-y-auto">
           {/* Breadcrumb */}
           <div className="flex space-x-4 mb-4">
             <button
-              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${step === 'select' ? 'bg-brand' : 'bg-brandGray'}`}
+              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${
+                step === 'select' ? 'bg-brand' : 'bg-brandGray'
+              }`}
               onClick={() => setStep('select')}
             >
               Select Product
             </button>
             <button
-              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${step === 'details' ? 'bg-brand' : 'bg-brandGray'}`}
+              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${
+                step === 'details' ? 'bg-brand' : 'bg-brandGray'
+              }`}
               disabled={selectedProduct === null}
             >
               Enter Details
@@ -74,7 +90,9 @@ const MainModal = ({ onClose }: { onClose: () => void }) => {
               {products.map((product, index) => (
                 <div
                   key={product.name}
-                  className={`flex items-center gap-2 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+                  className={`flex items-center gap-2 ${
+                    index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+                  }`}
                   onMouseEnter={() => setHoveredProduct(product.name)}
                   onMouseLeave={() => setHoveredProduct(null)}
                 >

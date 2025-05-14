@@ -5,11 +5,20 @@ import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Navbar from "../components/navbar/Navbar";
-import Modal from "../components/modal/Modal"; // Import the Modal component
+import MainModal from "../components/modal/Modal"; // Changed from `Modal` to `MainModal`
+import ResultsTableMainPage from "../components/reultsTable/ResultsTableMainPage";
+
+type ResultData = {
+  type: string;
+  width: string;
+  height: string;
+  airflow: string;
+};
 
 export default function MainPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submittedResults, setSubmittedResults] = useState<ResultData[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,18 +38,21 @@ export default function MainPage() {
     return <div>Loading...</div>;
   }
 
-  // Function to handle exporting (placeholder for now)
   const handleExport = () => {
     alert("Exporting Data...");
+  };
+
+  const handleModalSubmit = (data: ResultData) => {
+    setSubmittedResults((prev) => [...prev, data]);
+    setIsModalOpen(false);
   };
 
   return (
     <div className="bg-grayBackground min-h-screen flex flex-col">
       <Navbar />
-      
+
       <div className="ml-6 font-frutigerBold">PRODUCT SELECTION TOOL</div>
 
-      {/* Buttons Section */}
       <div className="flex justify-end gap-2 mt-3 mr-6">
         <button
           onClick={() => setIsModalOpen(true)}
@@ -56,12 +68,23 @@ export default function MainPage() {
         </button>
       </div>
 
-      {/* Modal Component */}
-      {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <MainModal onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} />
+      )}
 
-        <div className="absolute bottom-10 right-6 text-brand text-2xl font-alexandriaBold opacity-80">
-  EXCELAIR
-</div>
+      <div className="p-6 space-y-6">
+        {submittedResults.length > 0 && (
+          <div className="space-y-4">
+            {submittedResults.map((result, index) => (
+              <ResultsTableMainPage key={index} data={result} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="absolute bottom-10 right-6 text-brand text-2xl font-alexandriaB opacity-80">
+        EXCELAIR
+      </div>
 
       <footer className="text-brandGray py-4 text-center mt-auto">
         <p className="text-[8px]">
