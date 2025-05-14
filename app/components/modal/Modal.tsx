@@ -17,11 +17,6 @@ const products = [
   { name: 'Eyeball Diffusers (JN-EB)', image: '/Pictures/eyeball.jpg' },
 ];
 
-// Define types for the modal result and component props
-type Product = {
-  name: string;
-  image: string;
-};
 
 type ModalProps = {
   onClose: () => void;
