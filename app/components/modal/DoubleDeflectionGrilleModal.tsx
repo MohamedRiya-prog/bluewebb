@@ -1,20 +1,28 @@
 import { useState } from "react";
 import ResultsTableSmall from "../reultsTable/ResultsTabelSmall";
 
+// Define the data type for the modal form
+type DoubleDeflectionGrilleData = {
+  type: string;
+  width: string;
+  height: string;
+  airflow: string;
+};
+
 const DoubleDeflectionGrilleModal = ({
   onClose,
   onSubmit,
 }: {
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: DoubleDeflectionGrilleData) => void;
 }) => {
   const [type, setType] = useState("Supply");
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [airflow, setAirflow] = useState("");
 
-  // Optional: Add any calculated fields here
-  const resultData = {
+  // Define resultData with proper type
+  const resultData: DoubleDeflectionGrilleData = {
     type,
     width,
     height,
