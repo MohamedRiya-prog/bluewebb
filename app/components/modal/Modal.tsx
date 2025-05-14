@@ -17,18 +17,16 @@ const products = [
   { name: 'Eyeball Diffusers (JN-EB)', image: '/Pictures/eyeball.jpg' },
 ];
 
-
-type ModalProps = {
+const MainModal = ({
+  onClose,
+  onSubmit,
+}: {
   onClose: () => void;
-  onSubmit: (result: { product: string; data: Record<string, unknown> }) => void;
-};
-
-type Step = 'select' | 'details';
-
-const MainModal = ({ onClose, onSubmit }: ModalProps) => {
+  onSubmit: (result: any) => void;
+}) => {
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
-  const [step, setStep] = useState<Step>('select');
+  const [step, setStep] = useState<'select' | 'details'>('select');
 
   const handleSelectProduct = (product: string) => {
     setSelectedProduct(product);
@@ -38,9 +36,9 @@ const MainModal = ({ onClose, onSubmit }: ModalProps) => {
   const renderProductModal = (productName: string) => {
     const sharedProps = {
       onClose,
-      onSubmit: (data: Record<string, unknown>) => {
-        onSubmit({ product: productName, data }); // send data and product name to MainPage
-        onClose(); // close modal after submission
+      onSubmit: (data: any) => {
+        onSubmit(data);   // send data to MainPage
+        onClose();        // close modal after submission
       },
     };
 
@@ -69,13 +67,17 @@ const MainModal = ({ onClose, onSubmit }: ModalProps) => {
           {/* Breadcrumb */}
           <div className="flex space-x-4 mb-4">
             <button
-              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${step === 'select' ? 'bg-brand' : 'bg-brandGray'}`}
+              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${
+                step === 'select' ? 'bg-brand' : 'bg-brandGray'
+              }`}
               onClick={() => setStep('select')}
             >
               Select Product
             </button>
             <button
-              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${step === 'details' ? 'bg-brand' : 'bg-brandGray'}`}
+              className={`px-4 py-2 rounded-full text-sm font-frutiger text-white ${
+                step === 'details' ? 'bg-brand' : 'bg-brandGray'
+              }`}
               disabled={selectedProduct === null}
             >
               Enter Details
@@ -88,7 +90,9 @@ const MainModal = ({ onClose, onSubmit }: ModalProps) => {
               {products.map((product, index) => (
                 <div
                   key={product.name}
-                  className={`flex items-center gap-2 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+                  className={`flex items-center gap-2 ${
+                    index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+                  }`}
                   onMouseEnter={() => setHoveredProduct(product.name)}
                   onMouseLeave={() => setHoveredProduct(null)}
                 >

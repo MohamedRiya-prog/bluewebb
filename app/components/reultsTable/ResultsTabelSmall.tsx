@@ -8,7 +8,7 @@ type ResultsTableSmallProps = {
 };
 
 const ResultsTableSmall = ({ data }: ResultsTableSmallProps) => {
-  const { width, height, airflow } = data;
+  const { type, width, height, airflow } = data;
 
   return (
     <div className="mt-3 rounded">
