@@ -22,7 +22,7 @@ const ResultsTableSmall = ({ data }: ResultsTableSmallProps) => {
         </thead>
         <tbody className="text-gray-700 font-frutigerBold text-xs">
           <tr className="hover:bg-gray-200">
-            <td className="px-4 py-2 border border-gray-300 break-words" rowSpan={6}>Double Deflection Grille</td>
+            <td className="px-4 py-2 border border-gray-300 break-words" rowSpan={6}> {type} Grille</td>
             <td className="px-4 py-2">Model</td>
             <td className="px-4 py-2">SAR-FH-RV-DD</td>
             <td className="px-4 py-2">Free Area Velocity</td>
