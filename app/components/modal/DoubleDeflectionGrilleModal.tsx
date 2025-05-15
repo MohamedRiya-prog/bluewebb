@@ -3,11 +3,10 @@ import ResultsTableSmall from "../reultsTable/ResultsTabelSmall";
 import { DoubleDeflectionData } from "../type";  // <-- import your type here
 
 interface DoubleDeflectionGrilleModalProps {
-  onClose: () => void;
   onSubmit: (data: DoubleDeflectionData) => void;
 }
 
-const DoubleDeflectionGrilleModal = ({ onClose, onSubmit }: DoubleDeflectionGrilleModalProps) => {
+const DoubleDeflectionGrilleModal = ({ onSubmit }: DoubleDeflectionGrilleModalProps) => {
   const [model, setModel] = useState<'SAR-FH-RV-DD' | 'SAG-FH-RV-DD'>('SAR-FH-RV-DD');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
