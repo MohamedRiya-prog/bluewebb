@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import { ProductData } from '../type'; // Import from your types file
+import { ProductData } from '../type';
 
 import DoubleDeflectionGrilleModal from '../modal/DoubleDeflectionGrilleModal';
 import LinearBarModal from '../modal/LinearBarGrilleModal';
@@ -10,7 +10,6 @@ interface MainModalProps {
   onSubmit: (result: ProductData) => void;
 }
 
-// Product list
 const products = [
   { name: 'Double Deflection Grilles (SAG/RAG)', image: '/Pictures/double_deflection.jpg' },
   { name: 'Linear Bar Grilles (SLBG/RLBG)', image: '/Pictures/linear_bar.jpg' },
@@ -35,9 +34,7 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
   const renderProductModal = (productName: string) => {
     const sharedProps = {
       onClose,
-      onSubmit: (data: ProductData) => {
-        onSubmit(data);
-      },
+      onSubmit: (data: ProductData) => onSubmit(data),
     };
 
     switch (productName) {
@@ -46,7 +43,11 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
       case 'Linear Bar Grilles (SLBG/RLBG)':
         return <LinearBarModal {...sharedProps} />;
       default:
-        return <div className="p-6 text-center text-gray-600">No details available for <strong>{productName}</strong></div>;
+        return (
+          <div className="p-6 text-center text-gray-600">
+            No details available for <strong>{productName}</strong>
+          </div>
+        );
     }
   };
 
@@ -56,15 +57,11 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-    >
-      <div className="bg-white w-[1400px] h-[700px] rounded-lg shadow-lg overflow-hidden flex">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto p-4">
+      <div className="bg-white w-full max-w-7.5xl h-[90vh] max-h-[90vh] rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row">
+        
         {/* Left Panel */}
-        <div className="w-1/2 p-6 overflow-y-auto">
+        <div className="w-full md:w-1/2 p-4 md:p-6 overflow-y-auto">
           {/* Breadcrumb / Steps */}
           <div className="flex space-x-4 mb-4">
             <button
@@ -105,7 +102,7 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
               ))}
             </div>
           ) : (
-            <div className="p-6">
+            <div className="p-2 md:p-4">
               <h2
                 id="modal-title"
                 className="text-lg font-bold mb-4"
@@ -120,7 +117,7 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
         </div>
 
         {/* Right Panel - Product Image */}
-        <div className="w-1/2 relative">
+        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
           <img
             src={getCurrentImage()}
             alt={`${selectedProduct ?? 'Selected product'} preview`}

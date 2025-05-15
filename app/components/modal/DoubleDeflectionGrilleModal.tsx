@@ -1,21 +1,25 @@
 import { useState } from "react";
 import ResultsTableSmall from "../reultsTable/ResultsTabelSmall";
-import { DoubleDeflectionData } from "../type";  // <-- import your type here
+import { DoubleDeflectionData } from "../type";
 
 interface DoubleDeflectionGrilleModalProps {
   onSubmit: (data: DoubleDeflectionData) => void;
+  onClose: () => void;
 }
 
-const DoubleDeflectionGrilleModal = ({ onSubmit }: DoubleDeflectionGrilleModalProps) => {
-  const [model, setModel] = useState<'SAR-FH-RV-DD' | 'SAG-FH-RV-DD'>('SAR-FH-RV-DD');
-  const [width, setWidth] = useState('');
-  const [height, setHeight] = useState('');
-  const [airflow, setAirflow] = useState('');
+const DoubleDeflectionGrilleModal = ({
+  onClose,
+  onSubmit,
+}: DoubleDeflectionGrilleModalProps) => {
+  const [model, setModel] = useState<"SAR-FH-RV-DD" | "SAG-FH-RV-DD">("SAR-FH-RV-DD");
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
+  const [airflow, setAirflow] = useState("");
 
-  const isFormFilled = model && width && height && airflow;
+  const isFormFilled = model && +width > 0 && +height > 0 && +airflow > 0;
 
   const resultData: DoubleDeflectionData = {
-    type: 'DoubleDeflection',
+    type: "DoubleDeflection",
     model,
     width: parseInt(width, 10),
     height: parseInt(height, 10),
@@ -24,12 +28,18 @@ const DoubleDeflectionGrilleModal = ({ onSubmit }: DoubleDeflectionGrilleModalPr
 
   const handleSubmit = () => {
     if (!isFormFilled) return;
-    onSubmit(resultData); // send data to parent
+    onSubmit(resultData);
+  };
+
+  const handleSubmitClose = () => {
+    if (!isFormFilled) return;
+    onSubmit(resultData);
+    onClose();
   };
 
   return (
     <div className="overflow-hidden">
-      {/* Select Model */}
+      {/* Model Selection */}
       <div className="mb-6">
         <label className="block text-sm font-medium font-frutiger text-gray-700 mb-2">
           Select Model
@@ -38,52 +48,79 @@ const DoubleDeflectionGrilleModal = ({ onSubmit }: DoubleDeflectionGrilleModalPr
           <label className="flex items-center gap-2">
             <input
               type="radio"
-              value="SAG"
-              checked={model === 'SAR-FH-RV-DD'}
-              onChange={() => setModel('SAR-FH-RV-DD')}
+              value="SAR-FH-RV-DD"
+              checked={model === "SAR-FH-RV-DD"}
+              onChange={() => setModel("SAR-FH-RV-DD")}
               className="form-radio text-brand"
             />
-            <span className="text-sm font-frutiger">SAG (Supply)</span>
+            <span className="text-sm font-frutiger">SAR (Supply)</span>
           </label>
           <label className="flex items-center gap-2">
             <input
               type="radio"
-              value="RAG"
-              checked={model === 'SAG-FH-RV-DD'}
-              onChange={() => setModel('SAG-FH-RV-DD')}
+              value="SAG-FH-RV-DD"
+              checked={model === "SAG-FH-RV-DD"}
+              onChange={() => setModel("SAG-FH-RV-DD")}
               className="form-radio text-brand"
             />
-            <span className="text-sm font-frutiger">RAG (Return)</span>
+            <span className="text-sm font-frutiger">SAG (Return)</span>
           </label>
         </div>
       </div>
 
       {/* Width & Height */}
-      <div className="flex gap-8">
-        <input
-          type="number"
-          placeholder="Enter width (mm)"
-          value={width}
-          onChange={(e) => setWidth(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
-        />
-        <input
-          type="number"
-          placeholder="Enter height (mm)"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
-        />
+      <label className="block text-sm font-medium font-frutiger text-gray-700 mb-2">
+        Enter Dimensions (mm)
+      </label>
+      <div className="flex gap-8 mb-4">
+        <div className="flex-1">
+          <label
+            htmlFor="width"
+            className="block mb-1 text-sm font-frutiger text-brandGray"
+          >
+            Width (mm)
+          </label>
+          <input
+            id="width"
+            type="number"
+            placeholder="Enter width (mm)"
+            value={width}
+            onChange={(e) => setWidth(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded font-frutiger text-sm focus:border-brand focus:outline-none"
+          />
+        </div>
+
+        <div className="flex-1">
+          <label
+            htmlFor="height"
+            className="block mb-1 text-sm font-frutiger text-brandGray"
+          >
+            Height (mm)
+          </label>
+          <input
+            id="height"
+            type="number"
+            placeholder="Enter height (mm)"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded font-frutiger text-sm focus:border-brand focus:outline-none"
+          />
+        </div>
       </div>
 
       {/* Airflow */}
-      <input
-        type="number"
-        placeholder="Enter airflow (LPS)"
-        value={airflow}
-        onChange={(e) => setAirflow(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
-      />
+      <div className="mb-4">
+        <label className="block mb-1 text-sm font-frutiger text-brandGray">
+          Airflow (LPS)
+        </label>
+        <input
+          type="number"
+          placeholder="Enter airflow (LPS)"
+          value={airflow}
+          onChange={(e) => setAirflow(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded font-frutiger text-sm focus:border-brand focus:outline-none"
+        />
+      </div>
 
       {/* Preview Table */}
       {isFormFilled && (
@@ -92,13 +129,31 @@ const DoubleDeflectionGrilleModal = ({ onSubmit }: DoubleDeflectionGrilleModalPr
         </div>
       )}
 
-      {/* Submit Button */}
-      <button
-        onClick={handleSubmit}
-        className="mt-4 px-4 py-2 bg-brandGray hover:bg-brand text-sm rounded-full text-white font-frutiger"
-      >
-        Submit
-      </button>
+      {/* Buttons */}
+      <div className="flex flex-row gap-4">
+        <button
+          onClick={handleSubmit}
+          disabled={!isFormFilled}
+          className={`mt-4 px-4 py-2 text-sm rounded-full text-white font-frutiger ${
+            isFormFilled
+              ? "bg-brandGray hover:bg-brand"
+              : "bg-gray-300 cursor-not-allowed"
+          }`}
+        >
+          Submit
+        </button>
+        <button
+          onClick={handleSubmitClose}
+          disabled={!isFormFilled}
+          className={`mt-4 px-4 py-2 text-sm rounded-full text-white font-frutiger ${
+            isFormFilled
+              ? "bg-red-700 hover:bg-brand"
+              : "bg-gray-300 cursor-not-allowed"
+          }`}
+        >
+          Submit and Close
+        </button>
+      </div>
     </div>
   );
 };
