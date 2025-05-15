@@ -19,7 +19,6 @@ const DoubleDeflectionGrilleModal = ({
   const [apiResult, setApiResult] = useState<DoubleDeflectionData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const isFormFilled = +width > 0 && +height > 0 && +airflow > 0;
 
   // Live calculation when all values are valid
   useEffect(() => {

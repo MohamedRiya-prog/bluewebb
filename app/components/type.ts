@@ -9,8 +9,8 @@ export type DoubleDeflectionData = {
   pressureDrop: number;
   throwDistance: string;
   noiseCriteria: number;
-  neckVelocity: number;
-  faceVelocity: number;
+  neckVelocity: number | string;
+  faceVelocity: number | string;
 };
 
 export type LinearBarData = {
