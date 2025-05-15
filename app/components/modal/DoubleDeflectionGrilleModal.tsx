@@ -27,31 +27,35 @@ const DoubleDeflectionGrilleModal = ({
     const airflowVal = parseInt(airflow, 10);
 
     if (widthVal > 0 && heightVal > 0 && airflowVal > 0) {
-      try {
-        const result = calculateDoubleDeflection({
-          model,
-          width: widthVal,
-          height: heightVal,
-          airflow: airflowVal,
-        });
+    try {
+      const result = calculateDoubleDeflection({
+        model,
+        width: widthVal,
+        height: heightVal,
+        airflow: airflowVal,
+      });
 
-        const data: DoubleDeflectionData = {
-          width: widthVal,
-          height: heightVal,
-          airflow: airflowVal,
-          ...result,
-        };
+      const data: DoubleDeflectionData = {
+        width: widthVal,
+        height: heightVal,
+        airflow: airflowVal,
+        ...result,
+      };
 
-        setApiResult(data);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message || "Calculation failed");
-        setApiResult(null);
+      setApiResult(data);
+      setError(null);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Calculation failed");
       }
-    } else {
       setApiResult(null);
     }
-  }, [width, height, airflow, model]);
+  } else {
+    setApiResult(null);
+  }
+}, [width, height, airflow, model]);
 
   const handleSubmit = () => {
     if (apiResult) {
