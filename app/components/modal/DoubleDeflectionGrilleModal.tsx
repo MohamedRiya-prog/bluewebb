@@ -8,7 +8,7 @@ interface DoubleDeflectionGrilleModalProps {
 }
 
 const DoubleDeflectionGrilleModal = ({ onClose, onSubmit }: DoubleDeflectionGrilleModalProps) => {
-  const [model, setModel] = useState<'SAG' | 'RAG'>('SAG');
+  const [model, setModel] = useState<'SAR-FH-RV-DD' | 'SAG-FH-RV-DD'>('SAR-FH-RV-DD');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
   const [airflow, setAirflow] = useState('');
@@ -26,7 +26,6 @@ const DoubleDeflectionGrilleModal = ({ onClose, onSubmit }: DoubleDeflectionGril
   const handleSubmit = () => {
     if (!isFormFilled) return;
     onSubmit(resultData); // send data to parent
-    onClose(); // close the modal
   };
 
   return (
@@ -41,8 +40,8 @@ const DoubleDeflectionGrilleModal = ({ onClose, onSubmit }: DoubleDeflectionGril
             <input
               type="radio"
               value="SAG"
-              checked={model === 'SAG'}
-              onChange={() => setModel('SAG')}
+              checked={model === 'SAR-FH-RV-DD'}
+              onChange={() => setModel('SAR-FH-RV-DD')}
               className="form-radio text-brand"
             />
             <span className="text-sm font-frutiger">SAG (Supply)</span>
@@ -51,8 +50,8 @@ const DoubleDeflectionGrilleModal = ({ onClose, onSubmit }: DoubleDeflectionGril
             <input
               type="radio"
               value="RAG"
-              checked={model === 'RAG'}
-              onChange={() => setModel('RAG')}
+              checked={model === 'SAG-FH-RV-DD'}
+              onChange={() => setModel('SAG-FH-RV-DD')}
               className="form-radio text-brand"
             />
             <span className="text-sm font-frutiger">RAG (Return)</span>

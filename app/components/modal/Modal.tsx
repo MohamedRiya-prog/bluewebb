@@ -37,7 +37,6 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
       onClose,
       onSubmit: (data: ProductData) => {
         onSubmit(data);
-        onClose();
       },
     };
 

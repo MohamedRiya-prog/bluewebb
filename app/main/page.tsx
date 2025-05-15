@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { ProductData } from "../components/type"; // Ensure this is the correct path and that ProductData is only declared there
+import { ProductData } from "../components/type";
 
 import Navbar from "../components/navbar/Navbar";
 import MainModal from "../components/modal/Modal";
@@ -16,7 +16,6 @@ export default function MainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [results, setResults] = useState<ProductData[]>([]);
 
-  // Redirect unauthenticated users
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -30,31 +29,27 @@ export default function MainPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // Show loading state while auth check is in progress
   if (!isLoggedIn) return <div>Loading...</div>;
 
-  // Placeholder for Excel export
   const handleExport = () => {
     alert("Exporting Data...");
-    // TODO: Implement actual Excel export functionality here
+    // TODO: Implement actual Excel export functionality
   };
 
-  // On modal form submit, add new product data to results list and close modal
   const handleModalSubmit = (data: ProductData) => {
     setResults((prev) => [...prev, data]);
-    setIsModalOpen(false);
+    setIsModalOpen(true);
   };
 
   return (
-    <div className="bg-grayBackground min-h-screen flex flex-col relative">
-      <Navbar />
-
-      <div className="ml-6 mt-4 text-xl font-frutigerBold text-brandGray tracking-wide">
-        PRODUCT SELECTION TOOL
+    <div className="bg-grayBackground min-h-screen relative overflow-hidden">
+      {/* Fixed Navbar */}
+      <div className="fixed top-0 left-0 w-full z-50">
+        <Navbar />
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-end gap-2 mt-4 mr-6">
+      {/* Fixed Action Buttons */}
+      <div className="fixed top-32   right-6 z-40 flex gap-2">
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-buttonGray text-white px-4 py-2 rounded-full text-sm shadow-md hover:bg-brand font-frutigerBold transition"
@@ -69,13 +64,29 @@ export default function MainPage() {
         </button>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <MainModal onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} />
-      )}
+      {/* Fixed Watermark */}
+      <div className="fixed bottom-10 right-6 text-brand text-2xl font-alexandriaBold opacity-80 z-40">
+        EXCELAIR
+      </div>
 
-      {/* Results Display */}
-      <div className="p-6 space-y-6">
+      {/* Fixed Footer */}
+      <footer className="fixed bottom-0 left-0 w-full text-brandGray py-2 text-center text-[8px] z-50 border-t">
+        &copy; 2025 Century Mechanical Systems Factory LLC. All Rights Reserved.
+      </footer>
+
+      {/* Scrollable Main Content */}
+      <div className="pt-28 pb-20 px-6 overflow-y-auto max-h-screen space-y-6">
+        {/* Title */}
+        <div className="text-xl font-frutigerBold text-brandGray tracking-wide mt-4 ml-2">
+          PRODUCT SELECTION TOOL
+        </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <MainModal onClose={() => setIsModalOpen(false)} onSubmit={handleModalSubmit} />
+        )}
+
+        {/* Results Display */}
         {results.length > 0 && (
           <div className="space-y-4">
             {results.map((result, index) => (
@@ -84,18 +95,6 @@ export default function MainPage() {
           </div>
         )}
       </div>
-
-      {/* Watermark */}
-      <div className="absolute bottom-10 right-6 text-brand text-2xl font-alexandriaB opacity-80">
-        EXCELAIR
-      </div>
-
-      {/* Footer */}
-      <footer className="text-brandGray py-4 text-center mt-auto">
-        <p className="text-[8px]">
-          &copy; 2025 Century Mechanical Systems Factory LLC. All Rights Reserved.
-        </p>
-      </footer>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 export type DoubleDeflectionData = {
   type: 'DoubleDeflection';
-  model: 'SAG' | 'RAG';
+  model: 'SAR-FH-RV-DD' | 'SAG-FH-RV-DD';
   width: number;
   height: number;
   airflow: number;
