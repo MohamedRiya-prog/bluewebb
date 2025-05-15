@@ -1,14 +1,19 @@
+// ResultsTableSmall.tsx
+
+type CommonGrilleData = {
+  type: string;
+  model?: string;
+  width: number;
+  height: number;
+  airflow: number;
+};
+
 type ResultsTableSmallProps = {
-  data: {
-    type: string;
-    width: string;
-    height: string;
-    airflow: string;
-  };
+  data: CommonGrilleData;
 };
 
 const ResultsTableSmall = ({ data }: ResultsTableSmallProps) => {
-  const { type, width, height, airflow } = data;
+  const { type, model = "SAR-FH-RV-DD", width, height, airflow } = data;
 
   return (
     <div className="mt-3 rounded">
@@ -22,9 +27,9 @@ const ResultsTableSmall = ({ data }: ResultsTableSmallProps) => {
         </thead>
         <tbody className="text-gray-700 font-frutigerBold text-xs">
           <tr className="hover:bg-gray-200">
-            <td className="px-4 py-2 border border-gray-300 break-words" rowSpan={6}> {type} Grille</td>
+            <td className="px-4 py-2 border border-gray-300 break-words" rowSpan={6}>{type} Grille</td>
             <td className="px-4 py-2">Model</td>
-            <td className="px-4 py-2">SAR-FH-RV-DD</td>
+            <td className="px-4 py-2">{model}</td>
             <td className="px-4 py-2">Free Area Velocity</td>
             <td className="px-4 py-2">1.5 m/s</td>
           </tr>

@@ -1,69 +1,61 @@
 import { useState } from "react";
 import ResultsTableSmall from "../reultsTable/ResultsTabelSmall";
+import { DoubleDeflectionData } from "../type";  // <-- import your type here
 
-// Define the data type for the modal form
-type DoubleDeflectionGrilleData = {
-  type: string;
-  width: string;
-  height: string;
-  airflow: string;
-};
-
-const DoubleDeflectionGrilleModal = ({
-  onClose,
-  onSubmit,
-}: {
+interface DoubleDeflectionGrilleModalProps {
   onClose: () => void;
-  onSubmit: (data: DoubleDeflectionGrilleData) => void;
-}) => {
-  const [type, setType] = useState("Supply");
-  const [width, setWidth] = useState("");
-  const [height, setHeight] = useState("");
-  const [airflow, setAirflow] = useState("");
+  onSubmit: (data: DoubleDeflectionData) => void;
+}
 
-  // Define resultData with proper type
-  const resultData: DoubleDeflectionGrilleData = {
-    type,
-    width,
-    height,
-    airflow,
+const DoubleDeflectionGrilleModal = ({ onClose, onSubmit }: DoubleDeflectionGrilleModalProps) => {
+  const [model, setModel] = useState<'SAG' | 'RAG'>('SAG');
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
+  const [airflow, setAirflow] = useState('');
+
+  const isFormFilled = model && width && height && airflow;
+
+  const resultData: DoubleDeflectionData = {
+    type: 'DoubleDeflection',
+    model,
+    width: parseInt(width, 10),
+    height: parseInt(height, 10),
+    airflow: parseInt(airflow, 10),
   };
-
-  const isFormFilled = type && width && height && airflow;
 
   const handleSubmit = () => {
     if (!isFormFilled) return;
-    onSubmit(resultData); // send data to the parent component
+    onSubmit(resultData); // send data to parent
     onClose(); // close the modal
   };
 
   return (
     <div className="overflow-hidden">
-      {/* Select Type */}
+      {/* Select Model */}
       <div className="mb-6">
         <label className="block text-sm font-medium font-frutiger text-gray-700 mb-2">
-          Select Type
+          Select Model
         </label>
         <div className="flex gap-6">
           <label className="flex items-center gap-2">
             <input
               type="radio"
-              value="Supply"
-              checked={type === "Supply"}
-              onChange={() => setType("Supply")}
+              value="SAG"
+              checked={model === 'SAG'}
+              onChange={() => setModel('SAG')}
               className="form-radio text-brand"
             />
-            <span className="text-sm font-frutiger">Supply</span>
+            <span className="text-sm font-frutiger">SAG (Supply)</span>
           </label>
           <label className="flex items-center gap-2">
             <input
               type="radio"
-              value="Return"
-              checked={type === "Return"}
-              onChange={() => setType("Return")}
+              value="RAG"
+              checked={model === 'RAG'}
+              onChange={() => setModel('RAG')}
               className="form-radio text-brand"
             />
-            <span className="text-sm font-frutiger">Return</span>
+            <span className="text-sm font-frutiger">RAG (Return)</span>
           </label>
         </div>
       </div>
@@ -95,14 +87,14 @@ const DoubleDeflectionGrilleModal = ({
         className="w-full p-2 border border-gray-300 rounded mb-4 font-frutiger text-sm focus:border-brand"
       />
 
-      {/* Show Preview Table if form is filled */}
+      {/* Preview Table */}
       {isFormFilled && (
         <div className="mb-4">
           <ResultsTableSmall data={resultData} />
         </div>
       )}
 
-      {/* Submit */}
+      {/* Submit Button */}
       <button
         onClick={handleSubmit}
         className="mt-4 px-4 py-2 bg-brandGray hover:bg-brand text-sm rounded-full text-white font-frutiger"

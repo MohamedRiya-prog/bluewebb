@@ -1,10 +1,8 @@
+import React from "react";
+import { ProductData } from "../type"; // Adjust the path!
+
 type ResultsTableMainPageProps = {
-  data: {
-    type: string;
-    width: string;
-    height: string;
-    airflow: string;
-  };
+  data: ProductData;
 };
 
 const ResultsTableMainPage = ({ data }: ResultsTableMainPageProps) => {
@@ -17,15 +15,15 @@ const ResultsTableMainPage = ({ data }: ResultsTableMainPageProps) => {
         <thead>
           <tr className="bg-brandGray text-white">
             <th className="border border-gray-300 px-4 py-2 text-left">Product</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Size</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Airflow</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Size (mm)</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">Airflow (LPS)</th>
           </tr>
         </thead>
         <tbody className="text-gray-700">
           <tr className="hover:bg-gray-100">
             <td className="border px-4 py-2">{type} Grille</td>
             <td className="border px-4 py-2">{width} x {height}</td>
-            <td className="border px-4 py-2">{airflow} LPS</td>
+            <td className="border px-4 py-2">{airflow}</td>
           </tr>
         </tbody>
       </table>
