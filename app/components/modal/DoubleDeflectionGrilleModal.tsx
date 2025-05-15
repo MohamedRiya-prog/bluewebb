@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ResultsTableSmall from "../reultsTable/ResultsTabelSmall";
 import { DoubleDeflectionData } from "../type";
+import { calculateDoubleDeflection } from "../../../lib/calculations/DoubleDeflectionGrille";
 
 interface DoubleDeflectionGrilleModalProps {
   onSubmit: (data: DoubleDeflectionData) => void;
@@ -15,25 +16,52 @@ const DoubleDeflectionGrilleModal = ({
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [airflow, setAirflow] = useState("");
+  const [apiResult, setApiResult] = useState<DoubleDeflectionData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const isFormFilled = model && +width > 0 && +height > 0 && +airflow > 0;
+  const isFormFilled = +width > 0 && +height > 0 && +airflow > 0;
 
-  const resultData: DoubleDeflectionData = {
-    type: "DoubleDeflection",
-    model,
-    width: parseInt(width, 10),
-    height: parseInt(height, 10),
-    airflow: parseInt(airflow, 10),
-  };
+  // Live calculation when all values are valid
+  useEffect(() => {
+    const widthVal = parseInt(width, 10);
+    const heightVal = parseInt(height, 10);
+    const airflowVal = parseInt(airflow, 10);
+
+    if (widthVal > 0 && heightVal > 0 && airflowVal > 0) {
+      try {
+        const result = calculateDoubleDeflection({
+          model,
+          width: widthVal,
+          height: heightVal,
+          airflow: airflowVal,
+        });
+
+        const data: DoubleDeflectionData = {
+          width: widthVal,
+          height: heightVal,
+          airflow: airflowVal,
+          ...result,
+        };
+
+        setApiResult(data);
+        setError(null);
+      } catch (err: any) {
+        setError(err.message || "Calculation failed");
+        setApiResult(null);
+      }
+    } else {
+      setApiResult(null);
+    }
+  }, [width, height, airflow, model]);
 
   const handleSubmit = () => {
-    if (!isFormFilled) return;
-    onSubmit(resultData);
+    if (apiResult) {
+      onSubmit(apiResult);
+    }
   };
 
   const handleSubmitClose = () => {
-    if (!isFormFilled) return;
-    onSubmit(resultData);
+    handleSubmit();
     onClose();
   };
 
@@ -122,33 +150,34 @@ const DoubleDeflectionGrilleModal = ({
         />
       </div>
 
-      {/* Preview Table */}
-      {isFormFilled && (
+      {/* Error display */}
+      {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
+
+      {/* Preview Table or fallback message */}
+      {apiResult ? (
         <div className="mb-4">
-          <ResultsTableSmall data={resultData} />
+          <ResultsTableSmall data={apiResult} />
         </div>
+      ) : (
+        <p className="text-sm text-gray-500 mb-4">Enter valid inputs to see results.</p>
       )}
 
       {/* Buttons */}
       <div className="flex flex-row gap-4">
         <button
           onClick={handleSubmit}
-          disabled={!isFormFilled}
+          disabled={!apiResult}
           className={`mt-4 px-4 py-2 text-sm rounded-full text-white font-frutiger ${
-            isFormFilled
-              ? "bg-brandGray hover:bg-brand"
-              : "bg-gray-300 cursor-not-allowed"
+            apiResult ? "bg-brandGray hover:bg-brand" : "bg-gray-300 cursor-not-allowed"
           }`}
         >
           Submit
         </button>
         <button
           onClick={handleSubmitClose}
-          disabled={!isFormFilled}
+          disabled={!apiResult}
           className={`mt-4 px-4 py-2 text-sm rounded-full text-white font-frutiger ${
-            isFormFilled
-              ? "bg-red-700 hover:bg-brand"
-              : "bg-gray-300 cursor-not-allowed"
+            apiResult ? "bg-red-700 hover:bg-brand" : "bg-gray-300 cursor-not-allowed"
           }`}
         >
           Submit and Close

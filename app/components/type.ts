@@ -6,6 +6,11 @@ export type DoubleDeflectionData = {
   width: number;
   height: number;
   airflow: number;
+  pressureDrop: number;
+  throwDistance: string;
+  noiseCriteria: number;
+  neckVelocity: number;
+  faceVelocity: number;
 };
 
 export type LinearBarData = {

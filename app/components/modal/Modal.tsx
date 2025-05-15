@@ -58,10 +58,29 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto p-4">
-      <div className="bg-white w-full max-w-7.5xl h-[90vh] max-h-[90vh] rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row">
-        
-        {/* Left Panel */}
+      <div className="bg-white w-full max-w-[80vw] h-[90vh] max-h-[80vh] rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row">
+
+        {/* Right Panel - Product Image on top for mobile, left for desktop */}
+        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
+          <img
+            src={getCurrentImage()}
+            alt={`${selectedProduct ?? 'Selected product'} preview`}
+            className="w-full h-full object-cover transition-all duration-300"
+            loading="lazy"
+          />
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 bg-black p-1 rounded-full text-white hover:bg-red-600"
+            aria-label="Close modal"
+            type="button"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Left Panel - Select product & details */}
         <div className="w-full md:w-1/2 p-4 md:p-6 overflow-y-auto">
+
           {/* Breadcrumb / Steps */}
           <div className="flex space-x-4 mb-4">
             <button
@@ -116,23 +135,6 @@ const MainModal = ({ onClose, onSubmit }: MainModalProps) => {
           )}
         </div>
 
-        {/* Right Panel - Product Image */}
-        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
-          <img
-            src={getCurrentImage()}
-            alt={`${selectedProduct ?? 'Selected product'} preview`}
-            className="w-full h-full object-cover transition-all duration-300"
-            loading="lazy"
-          />
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 bg-black p-1 rounded-full text-white hover:bg-red-600"
-            aria-label="Close modal"
-            type="button"
-          >
-            <X size={24} />
-          </button>
-        </div>
       </div>
     </div>
   );
