@@ -8,7 +8,7 @@ export type DoubleDeflectionData = {
   airflow: number;
   pressureDrop: number;
   throwDistance: string;
-  noiseCriteria: number;
+  noiseCriteria: number | string;
   neckVelocity: number | string;
   faceVelocity: number | string;
 };
@@ -21,6 +21,11 @@ export type LinearBarData = {
   height: number;
   airflow: number;
   slotCount: number;
+  pressureDrop: number | string;
+  throwDistance: string;
+  noiseCriteria: number | string;
+  neckVelocity: number | string;
+  faceVelocity: number | string;
 };
 
 // Add more product types here as needed
