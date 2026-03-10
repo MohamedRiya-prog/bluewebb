@@ -19,7 +19,9 @@ const Navbar = () => {
                         <Image src="/images/logo.png" width={32} height={32} alt="Logo"/>
                     </a>
                     <div className="h-6 w-px bg-gray-500 shadow-[1px_0_0_rgba(255,255,255,0.4),-1px_0_0_rgba(0,0,0,0.4)] rotate-90"></div>
-
+                    <a>
+                        <Image src="/images/dashboard.png" width={24} height={24} alt="Logo"/>
+                    </a>
                 </div>
                 <div className="flex items-center justify-between [writing-mode:vertical-rl] rotate-180 font-bold text-xs text-gray-500" >
                     {formatDate(currentDate)}
@@ -29,10 +31,11 @@ const Navbar = () => {
                 <div className="flex items-center justify-between [writing-mode:vertical-rl] rotate-180 font-bold text-xs text-gray-500 " >
 
                 </div>
-                <div className="flex flex-col items-center bg-black rounded-xl w-fit h-fit gap-5 p-1">
+                <div className="flex flex-col items-center bg-black rounded-xl w-auto h-25 gap-1 p-1 rotate-180">
                     <a>
                         <Image src="/images/settings.png" width={32} height={32} alt="Logo"/>
                     </a>
+                    <div className="h-6 w-px bg-gray-500 shadow-[1px_0_0_rgba(255,255,255,0.4),-1px_0_0_rgba(0,0,0,0.4)] rotate-90"></div>
                 </div>
             </div>
         </div>
