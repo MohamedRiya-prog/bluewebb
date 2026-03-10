@@ -9,7 +9,7 @@ const UserProfile = ({ imageUrl }) => {
                 alt="User Profile"
                 width={40}
                 height={40}
-                className="rounded-full border border-gray-400"
+                className="rounded-full"
             />
             <div className="flex flex-col">
                 <button className="flex flex-row gap-1 items-center">
