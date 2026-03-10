@@ -3,7 +3,7 @@ import UserProfile from "./UserProfile"
 
 const Sidebar = () => {
     return (
-        <div className="Sidebar absolute w-[12%] bg-[#BDBDBD] rounded-xl top-5 h-[92%] left-24 p-2">
+        <div className="Sidebar absolute w-auto bg-[#BDBDBD] rounded-xl top-5 h-[92%] left-24 p-2">
            <div className="flex flex-col p-2 w-full h-full gap-3 ">
                <div className="flex flex-col gap-2">
                    <UserProfile />
