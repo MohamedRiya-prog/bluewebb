@@ -1,10 +1,12 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 
 const Page = () => {
     return (
-        <div>
+        <div className="Home flex flex-row">
           <Navbar />
+            <Sidebar />
         </div>
     )
 }
