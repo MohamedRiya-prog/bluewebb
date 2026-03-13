@@ -15,7 +15,7 @@ const Navbar = ({ setActiveModule }) => {
 
     return (
         <div className="navbar-container bg-[#808284] absolute left-5 top-5 w-auto h-screen flex flex-col gap-5">
-            <div className="NavLinks-container flex flex-col bg-white/60 w-fit h-[70%] rounded-xl p-2 gap-5">
+            <div className="NavLinks-container flex flex-col bg-white w-fit h-[70%] rounded-xl p-2 gap-5">
                 <div className="flex flex-col items-center bg-black rounded-xl w-fit h-[80%] gap-1 p-1">
 
                     {/* Logo */}
@@ -45,7 +45,7 @@ const Navbar = ({ setActiveModule }) => {
             </div>
 
             {/* Settings at bottom */}
-            <div className="NavSetting-Container flex flex-col items-center justify-between p-2 bg-white/60 w-auto h-[20%] rounded-xl">
+            <div className="NavSetting-Container flex flex-col items-center justify-between p-2 bg-white w-auto h-[20%] rounded-xl">
                 <div></div>
                 <div className="flex flex-col items-center bg-black rounded-xl w-auto h-25 gap-1 p-1 rotate-180">
                     <button onClick={() => setActiveModule("settings")}>
